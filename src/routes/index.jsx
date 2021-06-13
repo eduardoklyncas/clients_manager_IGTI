@@ -6,6 +6,7 @@ import Route from "./Route";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Costumers from "../pages/Costumers";
+import RecoverPassword from "../pages/RecoverPassword";
 
 
 const Routes = () => {
@@ -17,6 +18,7 @@ const Routes = () => {
             <Route exact path="/" component={Login} />
             <Route exact path="/cadastro" component={Register} />
             <Route exact path="/painel" component={Costumers} />
+            <Route exact path="/recuperar-senha" component={RecoverPassword} />
            {/* <Route exact path="/checkout" component={Checkout} /> */}
            {/*  <Route component={Error} />*/}
           </Switch>
