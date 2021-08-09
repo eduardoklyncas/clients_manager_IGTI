@@ -1,6 +1,6 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Routes from "./routes";
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
