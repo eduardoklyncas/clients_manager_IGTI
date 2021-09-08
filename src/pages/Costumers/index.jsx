@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { DataGrid } from "@material-ui/data-grid";
 import { FiDelete, FiEdit3 } from "react-icons/fi";
+import { toast } from "react-toastify";
 import api from "../../services/api";
 import { index } from "./styles";
 
@@ -29,6 +30,7 @@ const Costumers = () => {
     const resposta = window.confirm("Deseja remover o cliente ?");
     if (resposta) {
       api.delete(`users/${id}`).then(response => {
+        toast.success("Cliente removido");
         getClientList();
       });
     }

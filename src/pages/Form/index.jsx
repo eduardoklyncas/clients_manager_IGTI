@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import CreateIcon from "@material-ui/icons/Create";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { toast } from "react-toastify";
 import { index } from "./styles";
 import api from "../../services/api";
 
@@ -74,6 +75,7 @@ const Form = () => {
 
     api.post(`/users/${companyId}/clients`, values).then(response => {
       console.log("resp do post == ", response.data);
+      toast.success("Cliente adicionado");
       history.push("/painel");
     });
 

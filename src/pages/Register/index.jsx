@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import CreateIcon from "@material-ui/icons/Create";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { toast } from "react-toastify";
 import { index } from "./styles";
 import api from "../../services/api";
 
@@ -72,24 +73,13 @@ const Register = () => {
 
     console.log("requestObject", requestObject);
 
-    /// / chamar API de cadastro
-
-    api
-      .post("users", requestObject)
-      .then(response => {
-        console.log("resp = ", response);
-
-        // exibir mensagem de que cadastro foi realizado com sucesso
-
-        // limpar form
-        valuesFormik.resetForm();
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-
-    console.log("chegou ao fim do cadastro");
-
+    try {
+      await api.post("users", requestObject);
+      valuesFormik.resetForm();
+      toast.success("Cadastro criado com sucesso");
+    } catch (err) {
+      toast.error("Erro no cadastro");
+    }
     return true;
   };
 
