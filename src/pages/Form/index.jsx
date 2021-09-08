@@ -20,8 +20,64 @@ const Form = () => {
 
   const history = useHistory();
 
+  const validateForm = values => {
+    const newErrors = {};
+
+    if (!values.name) {
+      newErrors.name = { error: true, helperText: "Informe o nome." };
+    }
+
+    if (!values.email) {
+      newErrors.email = { error: true, helperText: "Informe seu e-mail." };
+    }
+
+    if (!values.telefone) {
+      newErrors.telefone = { error: true, helperText: "Informe seu telefone." };
+    }
+
+    if (!values.rua) {
+      newErrors.rua = { error: true, helperText: "Informe sua rua." };
+    }
+
+    if (!values.numero) {
+      newErrors.numero = { error: true, helperText: "Informe seu número." };
+    }
+
+    if (!values.bairro) {
+      newErrors.bairro = { error: true, helperText: "Informe seu bairro." };
+    }
+
+    if (!values.cidade) {
+      newErrors.cidade = { error: true, helperText: "Informe sua cidade." };
+    }
+
+    if (!values.estado) {
+      newErrors.estado = { error: true, helperText: "Informe seu estado." };
+    }
+
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors);
+      return false;
+    }
+
+    return true;
+  };
+
   const submitForm = async values => {
-    console.log(values);
+    if (!validateForm(values)) {
+      return false;
+    }
+
+    console.log("values do submit", values);
+
+    const companyId = 4;
+
+    api.post(`/users/${companyId}/clients`, values).then(response => {
+      console.log("resp do post == ", response.data);
+      history.push("/painel");
+    });
+
+    return true;
   };
 
   const valuesFormik = useFormik({
