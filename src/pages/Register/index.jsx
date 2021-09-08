@@ -37,6 +37,20 @@ const Register = () => {
       newErrors.password = { error: true, helperText: "Senha muito curta." };
     }
 
+    if (!values.confirmPassword) {
+      newErrors.confirmPassword = {
+        error: true,
+        helperText: "Informe a confirmação de senha."
+      };
+    }
+
+    if (values.password !== values.confirmPassword) {
+      newErrors.confirmPassword = {
+        error: true,
+        helperText: "A senha e a confirmação de senha devem ter o mesmo valor."
+      };
+    }
+
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
       return false;
@@ -87,7 +101,8 @@ const Register = () => {
     initialValues: {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     },
     onSubmit: register
   });
@@ -143,6 +158,25 @@ const Register = () => {
             value={valuesFormik.values.password}
             label="Senha"
             name="password"
+            type="password"
+            autoComplete="current-password"
+            onChange={e => {
+              resetErrors(e.target.name);
+              valuesFormik.handleChange(e);
+            }}
+          />
+          <span style={{ float: "left", fontSize: "smaller" }}>
+            * A senha deve ter no mínimo 6 caracteres
+          </span>
+          <TextField
+            {...errors.confirmPassword}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="password"
+            value={valuesFormik.values.confirmPassword}
+            label="Confirmação da Senha"
+            name="confirmPassword"
             type="password"
             autoComplete="current-password"
             onChange={e => {
