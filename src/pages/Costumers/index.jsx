@@ -14,10 +14,12 @@ const Costumers = () => {
   const classes = index();
   const history = useHistory();
 
-  const userId = "4";
+  const userData = JSON.parse(localStorage.getItem("@User"));
 
   const getClientList = () => {
-    api.get(`users/${userId}/clients`).then(response => {
+    console.log("entrou no get !!!!! ");
+    console.log("userId == ", userData);
+    api.get(`users/${userData.id}/clients`).then(response => {
       setClientList(response.data);
     });
   };
@@ -131,7 +133,7 @@ const Costumers = () => {
       <div style={{ backgroundColor: "#BC544B", height: "100px" }}>
         <Grid container>
           <Grid item md={10}>
-            <h1>Cadastro de clientes</h1>
+            <h1>{userData.name || "Cadastro de Clientes"}</h1>
           </Grid>
           <Grid item md={1}>
             <Button

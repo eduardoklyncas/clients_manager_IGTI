@@ -19,6 +19,7 @@ const Form = () => {
 
   const [errors, setErrors] = useState({});
 
+  const userData = JSON.parse(localStorage.getItem("@User"));
   const history = useHistory();
 
   const validateForm = values => {
@@ -71,9 +72,7 @@ const Form = () => {
 
     console.log("values do submit", values);
 
-    const companyId = 4;
-
-    api.post(`/users/${companyId}/clients`, values).then(response => {
+    api.post(`/users/${userData.id}/clients`, values).then(response => {
       console.log("resp do post == ", response.data);
       toast.success("Cliente adicionado");
       history.push("/painel");

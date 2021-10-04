@@ -47,15 +47,25 @@ const Login = () => {
     }
 
     const requestObject = {
-      email: values.filterValue,
-      password: values.filterDimensionId
+      email: values.email,
+      password: values.password
     };
 
-    api.get("users").then(response => {
-      console.log("response get no login == ", response.data);
-    });
+    try {
+      const test = await api.post("users/login", requestObject);
+      if (test.data.status) {
+        localStorage.setItem("@User", JSON.stringify(test.data));
+        history.push("/painel");
+      } else {
+        setErrors({
+          email: { error: true, helperText: "Email ou senha incorretos" },
+          password: { error: true, helperText: "Email ou senha incorretos" }
+        });
+      }
+    } catch (err) {
+      console.log("erro === ", err);
+    }
 
-    history.push("/painel");
     return true;
   };
 
