@@ -14,13 +14,14 @@ import { toast } from "react-toastify";
 import { index } from "./styles";
 import api from "../../services/api";
 
-const Form = () => {
+const Form = ({ match }) => {
   const classes = index();
 
   const [errors, setErrors] = useState({});
 
   const userData = JSON.parse(localStorage.getItem("@User"));
   const history = useHistory();
+  const id = match.params.id || null;
 
   const validateForm = values => {
     const newErrors = {};
@@ -70,15 +71,33 @@ const Form = () => {
       return false;
     }
 
-    console.log("values do submit", values);
-
     api.post(`/users/${userData.id}/clients`, values).then(response => {
-      console.log("resp do post == ", response.data);
       toast.success("Cliente adicionado");
       history.push("/painel");
     });
 
     return true;
+  };
+
+  const editarCliente = async () => {
+    const requestValue = {
+      name: valuesFormik.values.name,
+      email: valuesFormik.values.email,
+      telefone: valuesFormik.values.telefone,
+      rua: valuesFormik.values.rua,
+      numero: valuesFormik.values.numero,
+      bairro: valuesFormik.values.bairro,
+      complemento: valuesFormik.values.complemento,
+      cidade: valuesFormik.values.cidade,
+      estado: valuesFormik.values.estado
+    };
+
+    api
+      .put(`users/${userData.id}/editar/${id}`, requestValue)
+      .then(response => {
+        toast.success("Cliente atualizado");
+        history.push("/painel");
+      });
   };
 
   const valuesFormik = useFormik({
@@ -99,6 +118,24 @@ const Form = () => {
   const resetErrors = field => {
     setErrors({ ...errors, [field]: { error: false, helperText: "" } });
   };
+
+  useEffect(() => {
+    if (id) {
+      api.get(`users/${userData.id}/${id}`).then(response => {
+        valuesFormik.setValues({
+          name: response.data.name,
+          email: response.data.email,
+          telefone: response.data.telefone,
+          rua: response.data.rua,
+          numero: response.data.numero,
+          bairro: response.data.bairro,
+          complemento: response.data.complemento,
+          cidade: response.data.cidade,
+          estado: response.data.estado
+        });
+      });
+    }
+  }, [id]);
 
   return (
     <Container
@@ -242,15 +279,28 @@ const Form = () => {
             }}
           />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Registrar
-          </Button>
+          {!id ? (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Registrar
+            </Button>
+          ) : (
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={editarCliente}
+            >
+              Atualizar
+            </Button>
+          )}
+
           <Grid container>
             <Grid item xs>
               <Link

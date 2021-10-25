@@ -16,10 +16,8 @@ const Routes = () => {
           <Route exact path="/" component={Login} />
           <Route exact path="/cadastro" component={Register} />
           <Route exact path="/painel" component={Costumers} />
-          <Route exact path="/formulario" component={Form} />
+          <Route exact path="/formulario/:id?" component={Form} />
           <Route exact path="/recuperar-senha" component={RecoverPassword} />
-          {/* <Route exact path="/checkout" component={Checkout} /> */}
-          {/*  <Route component={Error} /> */}
         </Switch>
       </BrowserRouter>
     </>

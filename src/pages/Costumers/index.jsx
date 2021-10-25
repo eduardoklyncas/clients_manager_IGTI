@@ -17,15 +17,18 @@ const Costumers = () => {
   const userData = JSON.parse(localStorage.getItem("@User"));
 
   const getClientList = () => {
-    console.log("entrou no get !!!!! ");
-    console.log("userId == ", userData);
-    api.get(`users/${userData.id}/clients`).then(response => {
+    api.get(`users/${userData.id}/clients/all`).then(response => {
       setClientList(response.data);
     });
   };
 
   const adicionar = () => {
     history.push("/formulario");
+  };
+
+  const logout = () => {
+    localStorage.removeItem("@User");
+    history.push("/");
   };
 
   const deleteItem = id => {
@@ -39,16 +42,12 @@ const Costumers = () => {
   };
 
   const editItem = id => {
-    console.log("item a ser editado == ", id);
+    history.push(`/formulario/${id}`);
   };
 
   useEffect(() => {
     getClientList();
   }, []);
-
-  useEffect(() => {
-    console.log("clientList === ", clientList);
-  }, [clientList]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -145,6 +144,19 @@ const Costumers = () => {
               onClick={adicionar}
             >
               Adicionar
+            </Button>
+          </Grid>
+          <Grid item md={1}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={logout}
+              style={{ width: "50px" }}
+            >
+              Sair
             </Button>
           </Grid>
         </Grid>
